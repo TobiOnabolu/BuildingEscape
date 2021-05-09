@@ -54,16 +54,16 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 float UOpenDoor::TotalMassOfActors() const
 {
-	float sum = 0.f;
+	float TotalMass = 0.f;
 	TArray <AActor*> ActorsInTrigger;
 	PressurePlate->GetOverlappingActors(ActorsInTrigger);
 	
 	for (AActor* actor : ActorsInTrigger)
 	{
-		
-		sum += actor.getmass
+		TotalMass += actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();		//get the mass of the actors primitive component(the static mesh/collision comp)
 	}
-	return 0.f;
+	
+	return TotalMass;
 }
 void UOpenDoor::OpenDoor(float DeltaTime) 
 {

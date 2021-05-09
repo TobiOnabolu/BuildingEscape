@@ -34,6 +34,7 @@ private:
 	float currentYaw;
 	float lastOpened = 0.f;
 
+
 	UPROPERTY(EditAnywhere)
 		float targetYaw;
 
