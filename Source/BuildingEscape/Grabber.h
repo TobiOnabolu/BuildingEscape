@@ -35,6 +35,6 @@ private:
 	void AssignPhysicsHandle();
 	void AssignInputComponent();
 	FHitResult GetObjectHit();
-	FVector GetReachEnd();
+	FVector GetReachEnd();  
 
 };

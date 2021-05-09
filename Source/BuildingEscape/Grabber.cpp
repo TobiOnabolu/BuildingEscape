@@ -30,7 +30,6 @@ FVector UGrabber::GetReachEnd()
 void UGrabber::Grab() 
 {
 	//grabbing actor that was hit by our reach
-	UE_LOG(LogTemp, Warning, TEXT("Grabber Pressed"));
 	FHitResult Hit = GetObjectHit();
 
 	UPrimitiveComponent* ComponentToGrab = Hit.GetComponent();
@@ -40,13 +39,14 @@ void UGrabber::Grab()
 			NAME_None,
 			GetReachEnd()								//Reach end calculated by helper function
 		);
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *Hit.GetActor()->GetName());	//display the actor we grabbed
 	}
 }
 
 void UGrabber::Released() 
 {
-	UE_LOG(LogTemp, Warning, TEXT("Grabber Released"));
+	if (handle->GrabbedComponent) {
+		handle->ReleaseComponent();						//release the component if we have one
+	}
 }
 
 // Called when the game starts
