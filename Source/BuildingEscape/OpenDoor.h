@@ -27,7 +27,7 @@ public:
 
 	void OpenDoor(float DeltaTime);
 	void CloseDoor(float DeltaTime);
-
+	float TotalMassOfActors() const;
 
 private:
 	float initialYaw;
@@ -44,6 +44,6 @@ private:
 		ATriggerVolume* PressurePlate;
 
 	UPROPERTY(EditAnywhere)
-		AActor* Player;
+		AActor* ActorThatOpens;
 		
 };

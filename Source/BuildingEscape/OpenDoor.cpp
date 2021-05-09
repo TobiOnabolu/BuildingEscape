@@ -4,6 +4,8 @@
 #include "OpenDoor.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
+#include "GameFramework/Actor.h"
+#include "Components/PrimitiveComponent.h"
 
 
 // Sets default values for this component's properties
@@ -22,7 +24,7 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Player = GetWorld()->GetFirstPlayerController()->GetPawn();  //setting our default player to our member variable in this component
+	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();  //setting our default player to our member variable in this component
 	
 
 	initialYaw = GetOwner()->GetActorRotation().Yaw;
@@ -38,7 +40,8 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (PressurePlate->IsOverlappingActor(Player)) {
+	if (PressurePlate && TotalMassOfActors() > 50.f ) //check for if our trigger volume exists and how much weight is on it
+	{
 		OpenDoor(DeltaTime);
 		lastOpened = GetWorld()->GetTimeSeconds();
 	}
@@ -46,27 +49,35 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 		if ((GetWorld()->GetTimeSeconds() - lastOpened) > CloseSpeed) {		//when the door has been opened at least have it open for about 2 seconds before closing it.
 			CloseDoor(DeltaTime);
 		}
-
 	}
-
-	//float TargetYaw = 90.f;
-
 }
 
-void UOpenDoor::OpenDoor(float DeltaTime) {
-
+float UOpenDoor::TotalMassOfActors() const
+{
+	float sum = 0.f;
+	TArray <AActor*> ActorsInTrigger;
+	PressurePlate->GetOverlappingActors(ActorsInTrigger);
+	
+	for (AActor* actor : ActorsInTrigger)
+	{
+		
+		sum += actor.getmass
+	}
+	return 0.f;
+}
+void UOpenDoor::OpenDoor(float DeltaTime) 
+{
 	FRotator Opendoor = GetOwner()->GetActorRotation();
 	currentYaw = FMath::FInterpTo(currentYaw, targetYaw, DeltaTime, 0.5f);		//continually increase the current yaw to our target yaw
 	Opendoor.Yaw = currentYaw;													
 	GetOwner()->SetActorRotation(Opendoor);										//set out current yaw to our continually updated value
 
 }
-void UOpenDoor::CloseDoor(float DeltaTime) {
-
+void UOpenDoor::CloseDoor(float DeltaTime) 
+{
 	FRotator Closedoor = GetOwner()->GetActorRotation();
 	currentYaw = FMath::FInterpTo(currentYaw, initialYaw, DeltaTime, 2.f);		//continually increase the current yaw to our target yaw
 	Closedoor.Yaw = currentYaw;
 	GetOwner()->SetActorRotation(Closedoor);										//set out current yaw to our continually updated value
-
 }
 
