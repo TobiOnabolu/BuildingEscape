@@ -30,8 +30,10 @@ private:
 		float reach_length = 100.f;
 	void Grab();
 	void Released();
-	UPhysicsHandleComponent* handle = nullptr;
-	UInputComponent* input = nullptr;
+	UPROPERTY()
+		UPhysicsHandleComponent* handle = nullptr;
+	UPROPERTY()
+		UInputComponent* input = nullptr;
 	void AssignPhysicsHandle();
 	void AssignInputComponent();
 	FHitResult GetObjectHit();

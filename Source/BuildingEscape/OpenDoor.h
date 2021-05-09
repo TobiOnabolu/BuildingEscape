@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "Engine/TriggerVolume.h"
 #include "GameFramework/Actor.h"
+#include "Components/AudioComponent.h"
 #include "OpenDoor.generated.h"
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -33,7 +34,10 @@ private:
 	float initialYaw;
 	float currentYaw;
 	float lastOpened = 0.f;
+	bool DoorSoundPlayed = false;
 
+	UPROPERTY(EditAnywhere)
+		float MassToOpenDoors = 50.f;
 
 	UPROPERTY(EditAnywhere)
 		float targetYaw;
@@ -42,9 +46,8 @@ private:
 		float CloseSpeed = 0.05f;
 
 	UPROPERTY(EditAnywhere)
-		ATriggerVolume* PressurePlate;
-
-	UPROPERTY(EditAnywhere)
-		AActor* ActorThatOpens;
-		
+		ATriggerVolume* PressurePlate = nullptr;
+	
+	UPROPERTY()
+	UAudioComponent* DoorSound = nullptr;
 };
