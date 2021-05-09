@@ -43,7 +43,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 		lastOpened = GetWorld()->GetTimeSeconds();
 	}
 	else {
-		if ((GetWorld()->GetTimeSeconds() - lastOpened) > .5f) {		//when the door has been opened at least have it open for about 2 seconds before closing it.
+		if ((GetWorld()->GetTimeSeconds() - lastOpened) > CloseSpeed) {		//when the door has been opened at least have it open for about 2 seconds before closing it.
 			CloseDoor(DeltaTime);
 		}
 

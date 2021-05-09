@@ -38,6 +38,9 @@ private:
 		float targetYaw;
 
 	UPROPERTY(EditAnywhere)
+		float CloseSpeed = 0.05f;
+
+	UPROPERTY(EditAnywhere)
 		ATriggerVolume* PressurePlate;
 
 	UPROPERTY(EditAnywhere)

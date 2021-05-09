@@ -35,7 +35,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	FRotator playerVPR;
 
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(playerVPL, playerVPR);	//This assign the location and rotation of my viewpoint to my 2 parameters
-	
+
 	FVector reach = (playerVPR.Vector()) * reach_length;			//Can get the reach from a player with turning their rotation
 
 	FVector lineTraceEnd = playerVPL + reach;				// can add vectors like this, remember that the linetraceend should be rotation vector place displacment vector form origin
@@ -51,6 +51,20 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		5);
 	/*UE_LOG(LogTemp, Warning, TEXT("Location: %s \nRoatation: %s"), *playerVPL.ToString(), *playerVPR.ToString());*/
 
+	FHitResult Hit;
+	FCollisionQueryParams OmitObjects(FName(TEXT("")), false, GetOwner());
 
+	GetWorld()->LineTraceSingleByObjectType(
+		Hit,
+		playerVPL,
+		lineTraceEnd,
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+		OmitObjects
+	);
+
+	AActor* ActorHit = Hit.GetActor();
+	if (ActorHit) {
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *ActorHit->GetName());
+	}
 }
 
