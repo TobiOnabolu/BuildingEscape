@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Components/InputComponent.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Engine/EngineTypes.h"
 #include "Grabber.generated.h"
 
 
@@ -14,18 +17,24 @@ class BUILDINGESCAPE_API UGrabber : public UActorComponent
 
 public:	
 	// Sets default values for this component's properties
-	UGrabber();
+	UGrabber();	
+	// Called every frame
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 private:
 	UPROPERTY(EditAnywhere)
 		float reach_length = 100.f;
+	void Grab();
+	void Released();
+	UPhysicsHandleComponent* handle = nullptr;
+	UInputComponent* input = nullptr;
+	void AssignPhysicsHandle();
+	void AssignInputComponent();
+	FHitResult GetObjectHit();
+	FVector GetReachEnd();
 
-		
 };
